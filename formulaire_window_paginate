@@ -1,0 +1,441 @@
+@extends('layouts.app1')
+
+@section('title')
+    Naissance
+@endsection
+
+@section('message-header')
+    @include('includes.header')
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de bord</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Naissance</li>
+        </ol>
+@endsection
+
+@section('contenu')
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+            <strong>Liste déclarations naissances</strong>
+            <a href="" class="btn btn-sm btn-action float-btn" data-bs-toggle="modal" data-bs-target="#inlineForm"
+            title="Nouvel utilisateur">
+                <span>Ajouter</span>
+            </a><hr>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped" id="table1">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Prénom & Nom</th>
+                        <th>Rôle</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+{{-- ---------------------------------Partie formulaire--------------------------------------------------------- --}}
+<div class="modal fade text-left" id="inlineForm" tabindex="-1"
+ role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl"
+        role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h4 class="modal-title white" id="myModalLabel33">Ajout d'une déclaration naissance </h4>
+                <a href="{{route('index-naissance')}}" class="btn btn-sm btn-action detail"
+                title="Fermer">
+                    <i class="bi bi-x-circle-fill"></i>
+                </a>
+            </div>
+            <form method="post" action="{{route('store-naissance')}}" class="form">
+                @csrf
+                <div class="modal-body">
+                    <!-- Progress bar -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="progressbar">
+                                <div class="progress" id="progress"></div>
+
+                                <div
+                                    class="progress-step progress-step-active"
+                                    data-title="Intéressé"
+                                ></div>
+                                <div class="progress-step" data-title="Père"></div>
+                                <div class="progress-step" data-title="Mère"></div>
+                                <div class="progress-step" data-title="Déclarant"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Steps -->
+                    <div class="form-step form-step-active">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="text" name="nom_interesse" id="username" class="form-control" placeholder="Nom"
+                                title="Nom"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="text" name="prenom_interesse" id="username" class="form-control" placeholder="Prénom"
+                                title="Prénom"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="position"></label>
+                                <input type="date" name="date_naissance" id="position" class="form-control"
+                                title="Date de naissance" placeholder="Date naissance"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="position"></label>
+                                <input type="text" name="lieu_naissance" id="position" class="form-control" placeholder="Lieu de naissance"
+                                title="Lieu de naissance"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="position"></label>
+                                <input type="text" name="profession_interesse" id="position" class="form-control" title="Profession"
+                                title="" placeholder="Profession"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="position"></label>
+                                <input type="text" name="situation" id="position" class="form-control" placeholder="Situation matrimoniale"
+                                title="Situation matrimoniale"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="position"></label>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="d-inline-block me-2">
+                                        <div class="form-check">
+                                            <div class="checkbox">
+                                                <input type="radio" name="sexe" id="checkbox1" title="Sexe" class="form-check-input"
+                                                    checked>
+                                                <label for="checkbox1">Masculin</label>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="d-inline-block me-2">
+                                        <div class="form-check">
+                                            <div class="checkbox">
+                                                <input type="radio" name="sexe" class="form-check-input" title="Sexe" id="checkbox2">
+                                                <label for="checkbox2">Féminin</label>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="position"></label>
+                                <input type="time" name="heure" id="position" class="form-control"
+                                title="Heure de naissance" placeholder="Heure naissance"/>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-action btn-next" title="Suivant">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Suivant</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-step">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="text" name="nom_pere_pere" id="username" class="form-control" placeholder="Nom"
+                                title="Nom"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="text" name="prenom_pere_pere" id="username" class="form-control" placeholder="Prénom"
+                                title="Prénom"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="position"></label>
+                                <input type="date" name="date_naissance_pere" id="position" class="form-control"
+                                title="Date de naissance" placeholder="Date naissance"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="position"></label>
+                                <input type="text" name="lieu_naissance_pere" id="position" class="form-control" placeholder="Lieu de naissance"
+                                title="Lieu de naissance"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="text" name="adresse_pere" id="username" class="form-control" placeholder="Adresse"
+                                title="Adresse"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="text" name="profession_pere" id="username" class="form-control" placeholder="Profession"
+                                title="Profession"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="text" name="domicile_pere" id="username" class="form-control" placeholder="Domicile"
+                                title="Domicile"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="number" name="nin_pere" id="username" class="form-control" placeholder="N.I.N"
+                                title="Numéro idenfiant national"/>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-action btn-prev" title="Précédent">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Précédent</span>
+                            </a>
+                            <a href="#" class="btn btn-action btn-next" title="Suivant">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Suivant</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-step">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="text" name="nom_mere" id="username" class="form-control" placeholder="Nom"
+                                title="Nom"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="text" name="prenom_mere" id="username" class="form-control" placeholder="Prénom"
+                                title="Prénom"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="position"></label>
+                                <input type="date" name="date_naissance_mere" id="position" class="form-control"
+                                title="Date de naissance" placeholder="Date naissance"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="position"></label>
+                                <input type="text" name="lieu_naissance_mere" id="position" class="form-control" placeholder="Lieu de naissance"
+                                title="Lieu de naissance"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="text" name="adresse_mere" id="username" class="form-control" placeholder="Adresse"
+                                title="Adresse"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="text" name="profession_mere" id="username" class="form-control" placeholder="Profession"
+                                title="Profession"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="text" name="domicile_mere" id="username" class="form-control" placeholder="Domicile"
+                                title="Domicile"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="number" name="nin_mere" id="username" class="form-control" placeholder="N.I.N"
+                                title="Numéro idenfiant national"/>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-action btn-prev" title="Précédent">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Précédent</span>
+                            </a>
+                            <a href="#" class="btn btn-action btn-next" title="Suivant">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Suivant</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-step">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <select class="form-select" id="mySelect" title="Déclarant"
+                                            onchange="myFunction()">
+                                                <optgroup label="(Déclarant)">
+                                                    <option value="autre_declarant">Autres</option>
+                                                    <option value="pere_declarant">Pére</option>
+                                                    <option value="mere_declarant">Mére</option>
+                                                    <option value="officier_declarant">Officier</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="nom_declarant" id="username" class="form-control" placeholder="Nom"
+                                         title="Nom"/>
+                                    </div>
+                                </div>
+                             </div>
+                             <div class="col-sm-6">
+                                <input type="text" name="prenom_declarant" id="username" class="form-control" placeholder="Prénom"
+                                title="Prénom"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="text" name="adresse_declarant" id="username" class="form-control" placeholder="Adresse"
+                                title="Adresse"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="text" name="profession_declarant" id="username" class="form-control" placeholder="Profession"
+                                title="Profession"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="text" name="lien_parental_declarant" id="username" class="form-control" placeholder="Lien parental"
+                                title="Lien parental"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="username"></label>
+                                <input type="number" name="nin_declarant" id="username" class="form-control" placeholder="N.I.N"
+                                title="Numéro idenfiant national"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="position"></label>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="d-inline-block me-2">
+                                        <div class="form-check">
+                                            <div class="checkbox">
+                                                <input type="radio" name="sexe" id="checkbox1" title="Sexe" class="form-check-input"
+                                                    checked>
+                                                <label for="checkbox1">Masculin</label>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="d-inline-block me-2">
+                                        <div class="form-check">
+                                            <div class="checkbox">
+                                                <input type="radio" name="sexe" class="form-check-input" title="Sexe" id="checkbox2">
+                                                <label for="checkbox2">Féminin</label>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="position"></label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-action btn-prev" title="Précédent">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Précédent</span>
+                            </a>
+                            <button class="btn btn-action" title="Enregistrer">Valider</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+const prevBtns = document.querySelectorAll(".btn-prev");
+const nextBtns = document.querySelectorAll(".btn-next");
+const progress = document.getElementById("progress");
+const formSteps = document.querySelectorAll(".form-step");
+const progressSteps = document.querySelectorAll(".progress-step");
+
+let formStepsNum = 0;
+
+nextBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    formStepsNum++;
+    updateFormSteps();
+    updateProgressbar();
+  });
+});
+
+prevBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    formStepsNum--;
+    updateFormSteps();
+    updateProgressbar();
+  });
+});
+
+function updateFormSteps() {
+  formSteps.forEach((formStep) => {
+    formStep.classList.contains("form-step-active") &&
+      formStep.classList.remove("form-step-active");
+  });
+
+  formSteps[formStepsNum].classList.add("form-step-active");
+}
+
+function updateProgressbar() {
+  progressSteps.forEach((progressStep, idx) => {
+    if (idx < formStepsNum + 1) {
+      progressStep.classList.add("progress-step-active");
+    } else {
+      progressStep.classList.remove("progress-step-active");
+    }
+  });
+
+  const progressActive = document.querySelectorAll(".progress-step-active");
+
+  progress.style.width =
+    ((progressActive.length - 1) / (progressSteps.length - 1)) * 100 + "%";
+}
+</script>
+@endsection
+
+@section('script_haut')
+<script>
+    function myFunction() {
+      var libelle = document.getElementById("mySelect").value;
+        // document.getElementById("demo").innerHTML = "You selected: " + libelle;
+
+        if(libelle == 'pere_declarant'){
+            console.log(libelle);
+        //     $.ajax({
+        //     url: "get_article_by_libelle/"+libelle,
+        //     type: "GET",
+        //     data: { libelle: libelle ,_token: '{!! csrf_token() !!}', },
+        //     dataType: "json",
+        //     success: function(data) {
+        //         // console.log(data);
+        //         let qte = 1;
+        //         $(this).attr("data");
+        //         $("#code_barre").val(data.code_barre);
+        //         $("#id_produit").val(data.id);
+        //         $("#qte_max").val(data.nombre_article);
+        //         $("#prix_vente").val(data.prix_vente);
+        //         $("#ttc").val(data.prix_vente*qte);
+        //     },
+        //     error: function(err) {},
+        // });
+        }
+    }
+</script>
+@endsection
